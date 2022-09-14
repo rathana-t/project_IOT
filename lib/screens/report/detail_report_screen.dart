@@ -20,21 +20,24 @@ class DetailReport extends StatelessWidget {
             child: Container(
               color: Colors.amber,
               alignment: Alignment.center,
-              child: Text('Map here'),
+              child: const Text('Map here'),
             ),
           ),
           Positioned(
               left: 20,
               top: 50,
               child: Container(
-                padding: EdgeInsets.all(7),
+                padding: const EdgeInsets.all(7),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(50)),
-                child: Icon(
-                  Icons.arrow_back_ios_outlined,
-                  color: Colors.black,
-                  size: 20,
+                child: InkWell(
+                  onTap: () => Navigator.pop(context, true),
+                  child: const Icon(
+                    Icons.arrow_back_ios_outlined,
+                    color: Colors.black,
+                    size: 20,
+                  ),
                 ),
               )),
         ],
