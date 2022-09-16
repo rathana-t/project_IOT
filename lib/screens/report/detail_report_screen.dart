@@ -62,7 +62,27 @@ class DetailReport extends StatelessWidget {
               ),
               ClipRRect(
                   borderRadius: BorderRadius.circular(14),
-                  child: Image.network(item.image))
+                  child: Image.network(item.image)),
+              Container(
+                margin: const EdgeInsets.only(top: 20, bottom: 40),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    primary: ColorConst.yellow,
+                    elevation: 0,
+                    minimumSize: const Size.fromHeight(55),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Save to Camera Roll',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

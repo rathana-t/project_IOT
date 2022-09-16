@@ -38,7 +38,7 @@ class _MainScreenState extends State<MainScreen> {
           boxShadow: <BoxShadow>[
             BoxShadow(
               color: Colors.grey,
-              blurRadius: 5,
+              blurRadius: 2,
             ),
           ],
         ),
@@ -67,7 +67,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Account',
+              label: 'Me',
             ),
           ],
         ),
