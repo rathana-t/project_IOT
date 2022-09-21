@@ -3,6 +3,7 @@ import 'package:project_iot/screens/account/account_screen.dart';
 import 'package:project_iot/screens/devices/devices_screen.dart';
 import 'package:project_iot/screens/home/home_screen.dart';
 import 'package:project_iot/screens/report/report_screen.dart';
+import 'package:project_iot/screens/todos/todos_screen.dart';
 import 'package:project_iot/theme/colors.dart';
 
 class MainScreen extends StatefulWidget {
@@ -19,6 +20,8 @@ class _MainScreenState extends State<MainScreen> {
     DevicesScreen(),
     ReportScreen(),
     AccountScreen(),
+    // temporary
+    TodoScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -68,6 +71,11 @@ class _MainScreenState extends State<MainScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Me',
+            ),
+            // temporary
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_open_sharp),
+              label: 'Todo',
             ),
           ],
         ),
