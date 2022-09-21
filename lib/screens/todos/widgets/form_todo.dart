@@ -87,8 +87,8 @@ class FormTodo extends StatelessWidget {
                       }
                     }
                   },
-                  child: const Text(
-                    'Update Todo',
+                  child: Text(
+                    '${value == '' ? 'Create' : 'Update'} Todo',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
