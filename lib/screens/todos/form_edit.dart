@@ -30,16 +30,11 @@ class _FormEditTodoState extends State<FormEditTodo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Update Todo'),
-      ),
-      body: FormTodo(
-          formKey: _formKey,
-          titleController: _titleController,
-          descriptionController: _descriptionController,
-          databaseReference: _databaseReference,
-          value: widget.value),
-    );
+    return FormTodo(
+        formKey: _formKey,
+        titleController: _titleController,
+        descriptionController: _descriptionController,
+        databaseReference: _databaseReference,
+        value: widget.value);
   }
 }

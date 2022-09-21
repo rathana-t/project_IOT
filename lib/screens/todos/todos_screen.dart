@@ -3,6 +3,7 @@ import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/todos/form_create.dart';
 import 'package:project_iot/screens/todos/form_edit.dart';
+import 'package:project_iot/theme/colors.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({Key? key}) : super(key: key);
@@ -13,22 +14,31 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   @override
-  static const KEY = "key";
   Widget build(BuildContext context) {
     final DatabaseReference _databaseReference =
         FirebaseDatabase.instance.ref().child('todos');
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Todo List'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        // backgroundColor: ColorConst.yellow,
+        title: const Text('Todo List', style: TextStyle(color: Colors.black)),
         actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const FormCreateTodo()),
-              );
-            },
-            icon: const Icon(Icons.create_new_folder_rounded),
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const FormCreateTodo()),
+                );
+              },
+              icon: Icon(
+                Icons.create_new_folder_rounded,
+                color: ColorConst.yellow,
+              ),
+            ),
           ),
         ],
       ),
@@ -59,9 +69,9 @@ class _TodoScreenState extends State<TodoScreen> {
                               .child(snapshot.key.toString())
                               .remove();
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.delete,
-                          color: Colors.red,
+                          color: ColorConst.grey,
                         ),
                       ),
                       IconButton(
@@ -77,9 +87,9 @@ class _TodoScreenState extends State<TodoScreen> {
                             ),
                           );
                         },
-                        icon: const Icon(
+                        icon: Icon(
                           Icons.edit,
-                          color: Colors.blue,
+                          color: ColorConst.yellow,
                         ),
                       ),
                     ],

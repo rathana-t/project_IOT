@@ -29,16 +29,11 @@ class _FormCreateTodoState extends State<FormCreateTodo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Create Todo'),
-      ),
-      body: FormTodo(
-        formKey: _formKey,
-        titleController: _titleController,
-        descriptionController: _descriptionController,
-        databaseReference: _databaseReference,
-      ),
+    return FormTodo(
+      formKey: _formKey,
+      titleController: _titleController,
+      descriptionController: _descriptionController,
+      databaseReference: _databaseReference,
     );
   }
 }
