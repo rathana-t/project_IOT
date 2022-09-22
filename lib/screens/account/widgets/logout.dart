@@ -1,4 +1,4 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/theme/colors.dart';
 
@@ -14,12 +14,12 @@ class LogOutButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        primary: ColorConst.grey,
+        backgroundColor: ColorConst.grey,
         elevation: 0,
         minimumSize: const Size.fromHeight(55),
       ),
       onPressed: () {
-        // Navigator.pop(context);
+        FirebaseAuth.instance.signOut();
       },
       child: const Text(
         'Log Out',

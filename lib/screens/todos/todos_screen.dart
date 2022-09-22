@@ -47,18 +47,22 @@ class _TodoScreenState extends State<TodoScreen> {
           query: _databaseReference,
           itemBuilder: (BuildContext context, DataSnapshot snapshot,
               Animation<double> animation, int index) {
-            var refactor = snapshot.value
-                .toString()
-                .replaceAll(RegExp("{|}|title: |description: "), "");
-            refactor.trim();
+            // var refactor = snapshot.value
+            //     .toString()
+            //     .replaceAll(RegExp("{|}|title: |description: "), "");
+            // refactor.trim();
 
-            var text = refactor.split(',');
-            var title = text[1];
-            var description = text[0];
+            // var text = refactor.split(',');
+            // var title = text[1];
+            // var description = text[0];
+            var title = snapshot.child('title').value;
+            var description = snapshot.child('description').value;
             return Card(
               child: ListTile(
-                title: Text(title),
-                subtitle: Text(description),
+                // title: Text(title),
+                title: Text('$title'),
+                // title: Text('${snapshot.child('contact/name').value}'),
+                subtitle: Text('$description'),
                 trailing: SizedBox(
                   width: 100,
                   child: Row(
@@ -81,8 +85,8 @@ class _TodoScreenState extends State<TodoScreen> {
                             MaterialPageRoute(
                               builder: (context) => FormEditTodo(
                                 value: snapshot.key.toString(),
-                                des: description,
-                                title: title,
+                                des: '$description',
+                                title: '$title',
                               ),
                             ),
                           );

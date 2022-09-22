@@ -1,4 +1,4 @@
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/devices/widgets/bottomsheet_card.dart';
 import 'package:project_iot/theme/colors.dart';
@@ -10,6 +10,8 @@ class AccountHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -27,9 +29,13 @@ class AccountHeader extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
-              'Samnang Bun',
-              style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+            Text(
+              // user!.uid.toString(),
+              user!.email.toString(),
+              style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  overflow: TextOverflow.ellipsis),
             ),
           ],
         ),

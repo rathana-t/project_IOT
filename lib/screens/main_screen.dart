@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/account/account_screen.dart';
 import 'package:project_iot/screens/devices/devices_screen.dart';
 import 'package:project_iot/screens/home/home_screen.dart';
+import 'package:project_iot/screens/auth/login/login_screen.dart';
+import 'package:project_iot/screens/auth/register/rigister_screen.dart';
 import 'package:project_iot/screens/report/report_screen.dart';
 import 'package:project_iot/screens/todos/todos_screen.dart';
 import 'package:project_iot/theme/colors.dart';
@@ -19,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     HomeScreen(),
     DevicesScreen(),
     ReportScreen(),
-    AccountScreen(),
+    ProfileWidget(),
     // temporary
     TodoScreen(),
   ];
@@ -81,5 +84,50 @@ class _MainScreenState extends State<MainScreen> {
         ),
       ),
     );
+  }
+}
+
+class ProfileWidget extends StatelessWidget {
+  const ProfileWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasData) {
+          return const AccountScreen();
+        } else if (snapshot.hasError) {
+          return const Center(child: Text('Something went wrong'));
+        } else {
+          return AuthWidget();
+        }
+      },
+    ));
+  }
+}
+
+class AuthWidget extends StatefulWidget {
+  const AuthWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<AuthWidget> createState() => _AuthWidgetState();
+}
+
+class _AuthWidgetState extends State<AuthWidget> {
+  bool isLogin = true;
+  @override
+  Widget build(BuildContext context) {
+    void toggle() => setState(() => isLogin = !isLogin);
+    return isLogin
+        ? LogInScreen(onClickRegister: toggle)
+        : RegisterScreen(onClickLogin: toggle);
   }
 }

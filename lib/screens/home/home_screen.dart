@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/dummyData/report_dummy.dart';
 import 'package:project_iot/screens/home/widgets/device_card.dart';

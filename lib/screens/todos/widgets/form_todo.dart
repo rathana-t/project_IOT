@@ -66,7 +66,7 @@ class FormTodo extends StatelessWidget {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: ColorConst.yellow,
+                    backgroundColor: ColorConst.yellow,
                   ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
