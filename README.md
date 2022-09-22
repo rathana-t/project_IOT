@@ -22,7 +22,8 @@ samples, guidance on mobile development, and a full API reference.
 | Home Screen  | Devices Screen | Searching Device | Connecting Device |
 | ------------- | ------------- | ------------- | ------------- |
 |![image](https://user-images.githubusercontent.com/63546459/190119492-6953f859-8f10-415e-9db4-0c2db2a7d4a4.png)  |![image](https://user-images.githubusercontent.com/63546459/190119535-c8b2a298-ca44-49c8-8a6e-8a6d4d585b21.png)   |   ![image](https://user-images.githubusercontent.com/63546459/190119575-21c45cca-77d5-4a32-8b86-078a11e87778.png) | ![image](https://user-images.githubusercontent.com/63546459/190119604-3016595c-c045-4933-82ca-34b6b3c78ea4.png) |
-|![image](https://user-images.githubusercontent.com/63546459/190119678-fabf9c2f-d6a7-4983-b615-fa39f357aeb4.png) |![image](https://user-images.githubusercontent.com/63546459/190597636-342cd548-97cd-4ec7-afaf-417ce921f021.png)   |    ![image](https://user-images.githubusercontent.com/63546459/190598377-bda38231-74ce-41a4-b529-3d935a30a0d8.png) |  |
+|![image](https://user-images.githubusercontent.com/63546459/190119678-fabf9c2f-d6a7-4983-b615-fa39f357aeb4.png) |![image](https://user-images.githubusercontent.com/63546459/190597636-342cd548-97cd-4ec7-afaf-417ce921f021.png)   |    ![image](https://user-images.githubusercontent.com/63546459/190598377-bda38231-74ce-41a4-b529-3d935a30a0d8.png) | ![image](https://user-images.githubusercontent.com/63546459/191462513-ceb7be03-a4cf-496a-8487-14ef3600a91c.png)
+ |
 | | | | |
 
 
