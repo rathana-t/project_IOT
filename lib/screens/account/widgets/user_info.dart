@@ -1,16 +1,16 @@
-
 import 'package:flutter/material.dart';
 import 'package:project_iot/models/user_model.dart';
 import 'package:project_iot/screens/account/widgets/simple_text.dart';
 
-class UserInfo extends StatelessWidget {
-  const UserInfo({
-    Key? key,
-    required this.user,
-  }) : super(key: key);
+class UserInfoCard extends StatelessWidget {
+  UserInfoCard({Key? key}) : super(key: key);
 
-  final User user;
-
+  final User user = User(
+      age: "23 years",
+      gender: "23 years",
+      weight: "65 kg",
+      bloodType: "AB+",
+      height: "180 kg");
   @override
   Widget build(BuildContext context) {
     return Column(children: [

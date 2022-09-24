@@ -1,28 +1,63 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-import 'package:project_iot/models/user_model.dart';
+import 'package:project_iot/screens/account/add_contsct_screen.dart';
 import 'package:project_iot/theme/colors.dart';
 
 class EmergencyContactList extends StatelessWidget {
   const EmergencyContactList({
     Key? key,
-    required this.emergencyContacts,
+    // required this.emergencyContacts,
   }) : super(key: key);
 
-  final List<EmergencyContact> emergencyContacts;
+  // final Object emergencyContacts;
+  // final List<EmergencyContact> emergencyContacts;
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+    final DatabaseReference query = FirebaseDatabase.instance
+        .ref()
+        .child('users')
+        .child(user!.uid)
+        .child('contacts');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Emergency Contact',
-            style: TextStyle(fontSize: 22, color: ColorConst.grey)),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('Emergency Contact',
+                style: TextStyle(fontSize: 22, color: ColorConst.grey)),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                color: ColorConst.yellow,
+              ),
+              child: IconButton(
+                // padding: const EdgeInsets.all(0.0),
+                icon: const Icon(Icons.group_add_rounded),
+                iconSize: 30,
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const AddContactScreen()));
+                  // builder: (context) => const AddContactScreen()));
+                },
+              ),
+            )
+          ],
+        ),
         const SizedBox(height: 10),
-        ListView.builder(
-            itemCount: emergencyContacts.length,
+        FirebaseAnimatedList(
+            query: query,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
+            itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                Animation<double> animation, int index) {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: Container(
@@ -36,12 +71,12 @@ class EmergencyContactList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          emergencyContacts[index].parent,
+                          snapshot.child('name').value.toString(),
                           style:
                               TextStyle(fontSize: 18, color: ColorConst.grey),
                         ),
                         const SizedBox(height: 5),
-                        Text(emergencyContacts[index].phone,
+                        Text(snapshot.child('phone').value.toString(),
                             style: TextStyle(
                                 fontSize: 20,
                                 color: ColorConst.yellow,
@@ -50,6 +85,38 @@ class EmergencyContactList extends StatelessWidget {
                 ),
               );
             }),
+        // ListView.builder(
+        //     itemCount: emergencyContacts.length,
+        //     shrinkWrap: true,
+        //     physics: const NeverScrollableScrollPhysics(),
+        //     itemBuilder: (context, index) {
+        //       return Padding(
+        //         padding: const EdgeInsets.only(bottom: 10),
+        //         child: Container(
+        //           width: double.infinity,
+        //           padding: const EdgeInsets.all(10),
+        //           decoration: BoxDecoration(
+        //             borderRadius: BorderRadius.circular(12),
+        //             color: ColorConst.lightGrey,
+        //           ),
+        //           child: Column(
+        //               crossAxisAlignment: CrossAxisAlignment.start,
+        //               children: [
+        //                 Text(
+        //                   emergencyContacts[index].name,
+        //                   style:
+        //                       TextStyle(fontSize: 18, color: ColorConst.grey),
+        //                 ),
+        //                 const SizedBox(height: 5),
+        //                 Text(emergencyContacts[index].phone,
+        //                     style: TextStyle(
+        //                         fontSize: 20,
+        //                         color: ColorConst.yellow,
+        //                         fontWeight: FontWeight.bold)),
+        //               ]),
+        //         ),
+        //       );
+        //     }),
         const SizedBox(height: 5),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,

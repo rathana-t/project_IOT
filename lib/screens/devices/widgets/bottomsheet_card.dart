@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:project_iot/screens/devices/widgets/device_card.dart';
 import 'package:project_iot/theme/colors.dart';
+import 'package:project_iot/widgets/action_button.dart';
 
 class BottomSheetCard extends StatefulWidget {
   const BottomSheetCard({
@@ -86,22 +87,12 @@ class _BottomSheetCardState extends State<BottomSheetCard> {
               const LocalDeviceCard(),
               Padding(
                 padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    primary: ColorConst.yellow,
-                    elevation: 0,
-                    minimumSize: const Size.fromHeight(55),
-                  ),
+                child: ActionButton(
+                  backgroundColor: ColorConst.yellow,
+                  title: 'Connect',
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Connect',
-                    style: TextStyle(fontSize: 18),
-                  ),
                 ),
               ),
             ],

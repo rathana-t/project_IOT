@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/account/widgets/account_header.dart';
 import 'package:project_iot/screens/account/widgets/emergency_contact_list.dart';
-import 'package:project_iot/screens/account/widgets/logout.dart';
+import 'package:project_iot/widgets/action_button.dart';
 import 'package:project_iot/screens/account/widgets/user_info.dart';
 
 import '../../models/user_model.dart';
@@ -15,26 +16,21 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  // Object? emergencyContacts;
+
+  List<EmergencyContact> emergencyContacts = [
+    EmergencyContact(name: "Mother", phone: "0123456789"),
+    EmergencyContact(name: "Father", phone: "0123456789"),
+    EmergencyContact(name: "Brother", phone: "0123456789"),
+    EmergencyContact(name: "Sister", phone: "0123456789"),
+  ];
+
   @override
-  User user = User(
-      age: "23 years",
-      gender: "23 years",
-      weight: "65 kg",
-      bloodType: "AB+",
-      height: "180 kg");
-
   Widget build(BuildContext context) {
-    List<EmergencyContact> emergencyContacts = [
-      EmergencyContact(parent: "Mother", phone: "0123456789"),
-      EmergencyContact(parent: "Father", phone: "0123456789"),
-      EmergencyContact(parent: "Brother", phone: "0123456789"),
-      EmergencyContact(parent: "Sister", phone: "0123456789"),
-    ];
-
     return Scaffold(
       body: Container(
         color: Colors.white,
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: ListView(
           physics: const BouncingScrollPhysics(),
           children: [
@@ -46,12 +42,17 @@ class _AccountScreenState extends State<AccountScreen> {
                 borderRadius: BorderRadius.circular(14),
                 color: ColorConst.lightGrey,
               ),
-              child: UserInfo(user: user),
+              child: UserInfoCard(),
             ),
             const SizedBox(height: 20),
-            EmergencyContactList(emergencyContacts: emergencyContacts),
+            EmergencyContactList(),
+            // EmergencyContactList(emergencyContacts: emergencyContacts),
             const SizedBox(height: 29),
-            const LogOutButton(),
+            ActionButton(
+              backgroundColor: ColorConst.grey,
+              title: 'Log Out',
+              onPressed: () async => await FirebaseAuth.instance.signOut(),
+            ),
             const SizedBox(height: 15),
           ],
         ),

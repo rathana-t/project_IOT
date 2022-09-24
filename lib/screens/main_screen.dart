@@ -1,10 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/account/account_screen.dart';
+import 'package:project_iot/screens/crashDetect/crash_detect_screen.dart';
 import 'package:project_iot/screens/devices/devices_screen.dart';
 import 'package:project_iot/screens/home/home_screen.dart';
 import 'package:project_iot/screens/auth/login/login_screen.dart';
-import 'package:project_iot/screens/auth/register/rigister_screen.dart';
+import 'package:project_iot/screens/auth/register/register_screen.dart';
 import 'package:project_iot/screens/report/report_screen.dart';
 import 'package:project_iot/screens/todos/todos_screen.dart';
 import 'package:project_iot/theme/colors.dart';
@@ -25,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
     ProfileWidget(),
     // temporary
     TodoScreen(),
+    CrashDetectScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -79,6 +81,10 @@ class _MainScreenState extends State<MainScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.menu_open_sharp),
               label: 'Todo',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_open_sharp),
+              label: 'Detect',
             ),
           ],
         ),

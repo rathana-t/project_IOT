@@ -1,8 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:project_iot/models/report_model.dart';
 import 'package:project_iot/theme/colors.dart';
+import 'package:project_iot/widgets/action_button.dart';
 
 class DetailReport extends StatelessWidget {
   const DetailReport({Key? key, required this.item}) : super(key: key);
@@ -65,22 +64,12 @@ class DetailReport extends StatelessWidget {
                   child: Image.network(item.image)),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 40),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    primary: ColorConst.yellow,
-                    elevation: 0,
-                    minimumSize: const Size.fromHeight(55),
-                  ),
+                child: ActionButton(
+                  backgroundColor: ColorConst.yellow,
+                  title: 'Save to Camera Roll',
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text(
-                    'Save to Camera Roll',
-                    style: TextStyle(fontSize: 18),
-                  ),
                 ),
               ),
             ],

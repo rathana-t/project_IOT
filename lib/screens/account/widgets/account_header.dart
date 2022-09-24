@@ -1,17 +1,42 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/devices/widgets/bottomsheet_card.dart';
 import 'package:project_iot/theme/colors.dart';
 
-class AccountHeader extends StatelessWidget {
+class AccountHeader extends StatefulWidget {
   const AccountHeader({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  State<AccountHeader> createState() => _AccountHeaderState();
+}
+
+class _AccountHeaderState extends State<AccountHeader> {
+  late String userName = 'N/A';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
+  Future<void> fetchUser() async {
     final user = FirebaseAuth.instance.currentUser;
 
+    if (user != null) {
+      final DatabaseReference query =
+          FirebaseDatabase.instance.ref().child('users').child(user.uid);
+      final snapshot = await query.get();
+      setState(() {
+        userName = snapshot.child('name').value.toString();
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -30,9 +55,8 @@ class AccountHeader extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              // user!.uid.toString(),
-              user!.email.toString(),
-              style: TextStyle(
+              userName,
+              style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   overflow: TextOverflow.ellipsis),
@@ -40,28 +64,27 @@ class AccountHeader extends StatelessWidget {
           ],
         ),
         Container(
-          margin: const EdgeInsets.only(right: 15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: ColorConst.yellow,
           ),
           child: IconButton(
-            padding: const EdgeInsets.all(0.0),
+            // padding: const EdgeInsets.all(0.0),
             icon: const Icon(Icons.edit),
             iconSize: 30,
             color: Colors.white,
-            onPressed: () {
-              showModalBottomSheet<void>(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(50.0),
-                  ),
-                ),
-                context: context,
-                builder: (BuildContext context) {
-                  return const BottomSheetCard();
-                },
-              );
+            onPressed: () async {
+              // await showModalBottomSheet<void>(
+              //   shape: const RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.vertical(
+              //       top: Radius.circular(50.0),
+              //     ),
+              //   ),
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return const BottomSheetCard();
+              //   },
+              // );
             },
           ),
         )
