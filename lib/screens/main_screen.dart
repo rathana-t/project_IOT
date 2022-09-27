@@ -7,7 +7,6 @@ import 'package:project_iot/screens/home/home_screen.dart';
 import 'package:project_iot/screens/auth/login/login_screen.dart';
 import 'package:project_iot/screens/auth/register/register_screen.dart';
 import 'package:project_iot/screens/report/report_screen.dart';
-import 'package:project_iot/screens/todos/todos_screen.dart';
 import 'package:project_iot/theme/colors.dart';
 
 class MainScreen extends StatefulWidget {
@@ -25,7 +24,7 @@ class _MainScreenState extends State<MainScreen> {
     ReportScreen(),
     ProfileWidget(),
     // temporary
-    TodoScreen(),
+    //  To doScreen(),
     CrashDetectScreen()
   ];
 
@@ -78,10 +77,10 @@ class _MainScreenState extends State<MainScreen> {
               label: 'Me',
             ),
             // temporary
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu_open_sharp),
-              label: 'Todo',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.menu_open_sharp),
+            //   label: 'Todo',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.menu_open_sharp),
               label: 'Detect',

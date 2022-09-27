@@ -1,7 +1,8 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:project_iot/screens/devices/widgets/bottomsheet_card.dart';
 import 'package:project_iot/theme/colors.dart';
 
 class AccountHeader extends StatefulWidget {
@@ -15,11 +16,17 @@ class AccountHeader extends StatefulWidget {
 
 class _AccountHeaderState extends State<AccountHeader> {
   late String userName = 'N/A';
+  late String recording = 'null';
+  late bool fetching = false;
 
   @override
   void initState() {
     super.initState();
+    setState(() {
+      fetching = true;
+    });
     fetchUser();
+    fetchRecordStatus();
   }
 
   Future<void> fetchUser() async {
@@ -33,6 +40,24 @@ class _AccountHeaderState extends State<AccountHeader> {
         userName = snapshot.child('name').value.toString();
       });
     }
+  }
+
+  Future<void> fetchRecordStatus() async {
+    final DatabaseReference queryRecording =
+        FirebaseDatabase.instance.ref().child('test');
+    final snapshot = await queryRecording.get();
+    if (recording != 'null') {
+      if (snapshot.child('startCamera').value.toString() == '0') {
+        queryRecording.child('startCamera').set(1);
+      } else if (snapshot.child('startCamera').value.toString() == '1') {
+        queryRecording.child('startCamera').set(0);
+      }
+    }
+    final latestSnapshot = await queryRecording.get();
+    setState(() {
+      recording = latestSnapshot.child('startCamera').value.toString();
+      fetching = false;
+    });
   }
 
   @override
@@ -66,27 +91,48 @@ class _AccountHeaderState extends State<AccountHeader> {
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: ColorConst.yellow,
+            color: recording == '0' ? ColorConst.yellow : ColorConst.grey,
           ),
-          child: IconButton(
-            // padding: const EdgeInsets.all(0.0),
-            icon: const Icon(Icons.edit),
-            iconSize: 30,
-            color: Colors.white,
-            onPressed: () async {
-              // await showModalBottomSheet<void>(
-              //   shape: const RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.vertical(
-              //       top: Radius.circular(50.0),
-              //     ),
-              //   ),
-              //   context: context,
-              //   builder: (BuildContext context) {
-              //     return const BottomSheetCard();
-              //   },
-              // );
+          child: TextButton(
+            child: Text(
+              fetching
+                  ? '...'
+                  : recording == '0'
+                      ? 'Start record'
+                      : "Stop record",
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              if (!fetching) {
+                setState(() {
+                  fetching = true;
+                });
+              }
+
+              if (fetching) {
+                fetchRecordStatus();
+              }
             },
           ),
+          // child: IconButton(
+          //   // padding: const EdgeInsets.all(0.0),
+          //   icon: const Icon(Icons.edit),
+          //   iconSize: 30,
+          //   color: Colors.white,
+          //   onPressed: () async {
+          //     // await showModalBottomSheet<void>(
+          //     //   shape: const RoundedRectangleBorder(
+          //     //     borderRadius: BorderRadius.vertical(
+          //     //       top: Radius.circular(50.0),
+          //     //     ),
+          //     //   ),
+          //     //   context: context,
+          //     //   builder: (BuildContext context) {
+          //     //     return const BottomSheetCard();
+          //     //   },
+          //     // );
+          //   },
+          // ),
         )
       ],
     );

@@ -4,6 +4,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/main.dart';
 import 'package:project_iot/theme/colors.dart';
+import 'package:project_iot/widgets/input_form.dart';
 
 import '../../widgets/utils.dart';
 
@@ -48,10 +49,8 @@ class _AddContactScreenState extends State<AddContactScreen> {
         });
       } on FirebaseAuthException catch (e) {
         print(e);
-
         Utils.showSnackBar(e.message!);
       }
-
       navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
 
@@ -61,67 +60,60 @@ class _AddContactScreenState extends State<AddContactScreen> {
         backgroundColor: ColorConst.yellow,
         title: const Text('Add Contact'),
       ),
-      body: SingleChildScrollView(
-          child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            TextFormField(
-              controller: _nameController,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                  hintText: "Name",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Please enter name';
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _phoneController,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                  hintText: "Phone number",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter phone number';
-                } else if (value.length < 9 || value.length > 10) {
-                  return 'Please enter valid phone number';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _emailController,
-              textInputAction: TextInputAction.done,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                  hintText: "Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: SingleChildScrollView(
+            child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              InputForm(
+                controller: _nameController,
+                hintText: 'Name',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter name';
+                  }
                   return null;
-                } else if (!EmailValidator.validate(value)) {
-                  return 'Please enter a valid email';
-                }
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                addContact();
-              },
-              child: const Text("Add Contact"),
-            ),
-            // create sign up button
-          ],
-        ),
-      )),
+                },
+              ),
+              InputForm(
+                controller: _phoneController,
+                hintText: 'Phone number',
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter phone number';
+                  } else if (value.length < 9 || value.length > 10) {
+                    return 'Please enter valid phone number';
+                  }
+                  return null;
+                },
+              ),
+              InputForm(
+                controller: _emailController,
+                hintText: 'Email',
+                // textInputAction: TextInputAction.done,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return null;
+                  } else if (!EmailValidator.validate(value)) {
+                    return 'Please enter a valid email';
+                  }
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  addContact();
+                },
+                child: const Text("Add Contact"),
+              ),
+              // create sign up button
+            ],
+          ),
+        )),
+      ),
     );
   }
 }

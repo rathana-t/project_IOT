@@ -1,7 +1,7 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:project_iot/screens/account/account_screen.dart';
 import 'package:project_iot/screens/main_screen.dart';
 import 'package:project_iot/theme/colors.dart';
 
@@ -20,6 +20,10 @@ class _SplashScreenState extends State<SplashScreen> {
         const Duration(seconds: 3),
         () => Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => const MainScreen())));
+    Timer(
+        const Duration(seconds: 7),
+        () => Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const AccountScreen())));
     // MaterialPageRoute(builder: (context) => MapSample())));
   }
 

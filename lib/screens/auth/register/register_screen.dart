@@ -4,6 +4,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_iot/main.dart';
+import 'package:project_iot/theme/colors.dart';
+import 'package:project_iot/widgets/action_button.dart';
+import 'package:project_iot/widgets/input_form.dart';
 import 'package:project_iot/widgets/utils.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -62,122 +65,109 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
 
     return Scaffold(
-      body: SingleChildScrollView(
-          child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            const SizedBox(height: 200),
-            const Text('Welcome back'),
-            TextFormField(
-              controller: _nameController,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                  hintText: "Name",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) return 'Please enter name';
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _phoneController,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                  hintText: "Phone number",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter phone number';
-                } else if (value.length < 9 || value.length > 10) {
-                  return 'Please enter valid phone number';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _emailController,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                  hintText: "Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter email';
-                } else if (!EmailValidator.validate(value)) {
-                  return 'Please enter a valid email';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _passwordController,
-              textInputAction: TextInputAction.next,
-              obscureText: true,
-              decoration: InputDecoration(
-                  hintText: "Password",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a password';
-                } else if (value.length < 6) {
-                  return 'Password must be at least 6 characters';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _confirmPassController,
-              textInputAction: TextInputAction.done,
-              obscureText: true,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
-                hintText: "Confirm Password",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a password';
-                } else if (value != _passwordController.text) {
-                  return 'Password does not match';
-                }
-                return null;
-              },
-            ),
-            ElevatedButton(
-              onPressed: () {
-                register();
-              },
-              child: const Text("Register"),
-            ),
-            // create sign up button
-            RichText(
-              text: TextSpan(
-                text: 'Already have an account? ',
-                style: DefaultTextStyle.of(context).style,
-                children: <TextSpan>[
-                  TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = widget.onClickLogin,
-                    text: 'Log In',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Form(
+              key: formKey,
+              child: Column(
+                children: [
+                  const SizedBox(height: 60),
+                  const Text(
+                    'Welcome back',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(height: 50),
+                  InputForm(
+                    controller: _nameController,
+                    hintText: "Name",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter name';
+                      }
+                      return null;
+                    },
+                  ),
+                  InputForm(
+                    controller: _phoneController,
+                    hintText: "Phone number",
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter phone number';
+                      } else if (value.length < 9 || value.length > 10) {
+                        return 'Please enter valid phone number';
+                      }
+                      return null;
+                    },
+                  ),
+                  InputForm(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      hintText: "Email",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter email';
+                        } else if (!EmailValidator.validate(value)) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      }),
+                  InputForm(
+                    controller: _passwordController,
+                    hintText: 'Password',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a password';
+                      } else if (value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  InputForm(
+                    controller: _confirmPassController,
+                    hintText: 'Confirm Password',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a confirm password';
+                      } else if (value != _passwordController.text) {
+                        return 'Password does not match';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  ActionButton(
+                    title: "Register",
+                    onPressed: register,
+                    backgroundColor: ColorConst.yellow,
+                  ),
+                  const SizedBox(height: 20),
+                  // create sign up button
+                  RichText(
+                    text: TextSpan(
+                      text: 'Already have an account? ',
+                      style: DefaultTextStyle.of(context).style,
+                      children: <TextSpan>[
+                        TextSpan(
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = widget.onClickLogin,
+                          text: 'Log In',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 30),
                 ],
               ),
-            )
-          ],
-        ),
-      )),
+            )),
+      ),
     );
   }
 }

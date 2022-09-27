@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:project_iot/main.dart';
 import 'package:project_iot/screens/auth/forgetpassword/forget_password_screen.dart';
+import 'package:project_iot/theme/colors.dart';
+import 'package:project_iot/widgets/action_button.dart';
+import 'package:project_iot/widgets/input_form.dart';
 import 'package:project_iot/widgets/utils.dart';
 
 class LogInScreen extends StatefulWidget {
@@ -18,7 +21,7 @@ class _LogInScreenState extends State<LogInScreen> {
   final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Future signIn() async {
+    Future logIn() async {
       showDialog(
           context: context,
           barrierDismissible: false,
@@ -43,68 +46,66 @@ class _LogInScreenState extends State<LogInScreen> {
     }
 
     return Scaffold(
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          SizedBox(height: 200),
-          TextField(
-            controller: _emailController,
-            textInputAction: TextInputAction.next,
-            decoration: InputDecoration(
-              hintText: "Email",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-          TextField(
-            controller: _passwordController,
-            textInputAction: TextInputAction.done,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: "Password",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-          ),
-
-          SizedBox(height: 15),
-          ElevatedButton(
-            onPressed: () {
-              signIn();
-            },
-            child: const Text("Log In"),
-          ),
-          SizedBox(height: 15),
-          GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ForgetPasswordScreen()));
-            },
-            child: const Text(
-              "Forget Password?",
-              style: TextStyle(color: Colors.blue),
-            ),
-          ),
-          SizedBox(height: 15),
-          // create sign up button
-          RichText(
-            text: TextSpan(
-              text: 'Don\'t have an account? ',
-              style: DefaultTextStyle.of(context).style,
-              children: <TextSpan>[
-                TextSpan(
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = widget.onClickRegister,
-                  text: 'Register',
-                  style: const TextStyle(fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                const SizedBox(height: 150),
+                const Text(
+                  'Log In',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 50),
+                InputForm(
+                    controller: _emailController,
+                    hintText: "Email",
+                    keyboardType: TextInputType.emailAddress,
+                    validator: () {}),
+                InputForm(
+                    controller: _passwordController,
+                    hintText: "Password",
+                    validator: () {}),
+                const SizedBox(height: 10),
+                ActionButton(
+                    title: 'Log In',
+                    onPressed: logIn,
+                    backgroundColor: ColorConst.yellow),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const ForgetPasswordScreen()));
+                  },
+                  child: const Text(
+                    "Forget Password?",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                // create sign up button
+                RichText(
+                  text: TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: DefaultTextStyle.of(context).style,
+                    children: <TextSpan>[
+                      TextSpan(
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = widget.onClickRegister,
+                        text: 'Register',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 30),
               ],
-            ),
-          )
-        ],
-      )),
+            )),
+      ),
     );
   }
 }

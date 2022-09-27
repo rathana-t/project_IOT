@@ -1,6 +1,8 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project_iot/theme/colors.dart';
+import 'package:project_iot/widgets/action_button.dart';
 import 'package:project_iot/widgets/utils.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
@@ -41,39 +43,63 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     }
 
     return Scaffold(
-      body: SingleChildScrollView(
-          child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            SizedBox(height: 200),
-            Text('Forget Password',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold)),
-            TextFormField(
-              controller: _emailController,
-              textInputAction: TextInputAction.next,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              decoration: InputDecoration(
+      appBar: AppBar(
+        backgroundColor: ColorConst.grey,
+        title: const Text('Reset Password'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: SingleChildScrollView(
+            child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              SizedBox(height: 200),
+              Text('Forget Password',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold)),
+              SizedBox(height: 30),
+              TextFormField(
+                controller: _emailController,
+                textInputAction: TextInputAction.next,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                cursorColor: ColorConst.grey,
+                decoration: InputDecoration(
                   hintText: "Email",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter email';
-                } else if (!EmailValidator.validate(value)) {
-                  return 'Please enter a valid email';
-                }
-                return null;
-              },
-            ),
-            ElevatedButton(
-                onPressed: resetPassword, child: Text('Reset Password'))
-          ],
-        ),
-      )),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      width: 2,
+                      color: ColorConst.grey,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: BorderSide(
+                      color: ColorConst.grey,
+                    ),
+                  ),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter email';
+                  } else if (!EmailValidator.validate(value)) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+              ActionButton(
+                  title: 'Reset Password',
+                  onPressed: resetPassword,
+                  backgroundColor: ColorConst.grey)
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
