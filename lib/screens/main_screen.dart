@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/account/account_screen.dart';
 import 'package:project_iot/screens/crashDetect/crash_detect_screen.dart';
@@ -25,8 +26,23 @@ class _MainScreenState extends State<MainScreen> {
     ProfileWidget(),
     // temporary
     //  To doScreen(),
-    CrashDetectScreen()
+    // CrashDetectScreen()
   ];
+
+  String data = 'null';
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    final DatabaseReference queryRecording =
+        FirebaseDatabase.instance.ref().child('test');
+    queryRecording.onValue.listen((DatabaseEvent event) {
+      setState(() {
+        data = event.snapshot.child('falseAlarmActive').value.toString();
+      });
+    });
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -38,56 +54,58 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
-      body: pages[_selectedIndex],
-      bottomNavigationBar: Container(
-        height: 70,
-        decoration: const BoxDecoration(
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 2,
+      body: data == "false" ? pages[_selectedIndex] : const CrashDetectScreen(),
+      bottomNavigationBar: data == "true"
+          ? const SizedBox()
+          : Container(
+              height: 70,
+              decoration: const BoxDecoration(
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 2,
+                  ),
+                ],
+              ),
+              child: BottomNavigationBar(
+                elevation: 0,
+                currentIndex: _selectedIndex,
+                selectedItemColor: ColorConst.yellow,
+                unselectedItemColor: ColorConst.grey,
+                // selectedLabelStyle: const TextStyle(color: Color(0xFFFFB703)),
+                // unselectedLabelStyle: const TextStyle(color: Color(0xFF848484)),
+                showUnselectedLabels: true,
+                type: BottomNavigationBarType.fixed,
+                onTap: _onItemTapped,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.phone_android_outlined),
+                    label: 'Devices',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.car_crash_outlined),
+                    label: 'Report',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.person),
+                    label: 'Me',
+                  ),
+                  // temporary
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(Icons.menu_open_sharp),
+                  //   label: 'Todo',
+                  // ),
+                  // BottomNavigationBarItem(
+                  //   icon: Icon(Icons.menu_open_sharp),
+                  //   label: 'Detect',
+                  // ),
+                ],
+              ),
             ),
-          ],
-        ),
-        child: BottomNavigationBar(
-          elevation: 0,
-          currentIndex: _selectedIndex,
-          selectedItemColor: ColorConst.yellow,
-          unselectedItemColor: ColorConst.grey,
-          // selectedLabelStyle: const TextStyle(color: Color(0xFFFFB703)),
-          // unselectedLabelStyle: const TextStyle(color: Color(0xFF848484)),
-          showUnselectedLabels: true,
-          type: BottomNavigationBarType.fixed,
-          onTap: _onItemTapped,
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.phone_android_outlined),
-              label: 'Devices',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.car_crash_outlined),
-              label: 'Report',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Me',
-            ),
-            // temporary
-            // BottomNavigationBarItem(
-            //   icon: Icon(Icons.menu_open_sharp),
-            //   label: 'Todo',
-            // ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.menu_open_sharp),
-              label: 'Detect',
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

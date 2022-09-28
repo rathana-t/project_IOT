@@ -61,15 +61,38 @@ class _LogInScreenState extends State<LogInScreen> {
                       fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 50),
-                InputForm(
-                    controller: _emailController,
+                const SizedBox(height: 50),
+                TextField(
+                  controller: _emailController,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
                     hintText: "Email",
-                    keyboardType: TextInputType.emailAddress,
-                    validator: () {}),
-                InputForm(
-                    controller: _passwordController,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _passwordController,
+                  textInputAction: TextInputAction.done,
+                  obscureText: true,
+                  decoration: InputDecoration(
                     hintText: "Password",
-                    validator: () {}),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+                // InputForm(
+                //     controller: _emailController,
+                //     hintText: "Email",
+                //     keyboardType: TextInputType.emailAddress,
+                //     validator: () {}),
+                // InputForm(
+                //     controller: _passwordController,
+                //     hintText: "Password",
+                //     validator: () {}),
                 const SizedBox(height: 10),
                 ActionButton(
                     title: 'Log In',

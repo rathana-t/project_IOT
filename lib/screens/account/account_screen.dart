@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:project_iot/screens/account/widgets/account_header.dart';
 import 'package:project_iot/screens/account/widgets/emergency_contact_list.dart';
@@ -45,7 +48,7 @@ class _AccountScreenState extends State<AccountScreen> {
               child: UserInfoCard(),
             ),
             const SizedBox(height: 20),
-            EmergencyContactList(),
+            const EmergencyContactList(),
             // EmergencyContactList(emergencyContacts: emergencyContacts),
             const SizedBox(height: 29),
             ActionButton(

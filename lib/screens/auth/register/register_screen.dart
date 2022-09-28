@@ -47,11 +47,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         //.then((userCredential) {
         //   // userCredential.user.updateEmail('newyou@domain.example')
         // });
-        _databaseReference.child(FirebaseAuth.instance.currentUser!.uid).set({
-          'id': FirebaseAuth.instance.currentUser!.uid,
+        _databaseReference.set({
           'name': _nameController.text.trim(),
           'phone': _phoneController.text.trim(),
           'email': _emailController.text.trim(),
+        // _databaseReference.child(FirebaseAuth.instance.currentUser!.uid).set({
+        //   'id': FirebaseAuth.instance.currentUser!.uid,
+        //   'name': _nameController.text.trim(),
+        //   'phone': _phoneController.text.trim(),
+        //   'email': _emailController.text.trim(),
 
           // 'contact': {'name': 'sdds', 'phone': 233323232}
         });

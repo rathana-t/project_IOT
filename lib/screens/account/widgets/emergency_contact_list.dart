@@ -17,11 +17,14 @@ class EmergencyContactList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    final DatabaseReference query = FirebaseDatabase.instance
-        .ref()
-        .child('users')
-        .child(user!.uid)
-        .child('contacts');
+    final DatabaseReference query =
+        FirebaseDatabase.instance.ref().child('users').child('contacts');
+
+    // final DatabaseReference query = FirebaseDatabase.instance
+    //     .ref()
+    //     .child('users')
+    //     .child(user!.uid)
+    //     .child('contacts');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -71,12 +74,14 @@ class EmergencyContactList extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          snapshot.child('name').value.toString(),
+                          'N/A',
+                          // snapshot.child('name').value.toString(),
                           style:
                               TextStyle(fontSize: 18, color: ColorConst.grey),
                         ),
                         const SizedBox(height: 5),
-                        Text(snapshot.child('phone').value.toString(),
+                        Text(snapshot.value.toString().replaceAll('+855', '0'),
+                            // Text(snapshot.child('phone').value.toString(),
                             style: TextStyle(
                                 fontSize: 20,
                                 color: ColorConst.yellow,

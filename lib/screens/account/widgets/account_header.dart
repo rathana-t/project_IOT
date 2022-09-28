@@ -21,36 +21,53 @@ class _AccountHeaderState extends State<AccountHeader> {
 
   @override
   void initState() {
+    fetchUser();
+    // final DatabaseReference queryRecording =
+    //     FirebaseDatabase.instance.ref().child('users');
+    // queryRecording.onValue.listen((DatabaseEvent event) {
+    //   setState(() {
+    //     userName = event.snapshot.child('name').value.toString();
+    //   });
+    // });
+    fetchRecordStatus();
     super.initState();
+  }
+
+  void fetchUser() async {
+    // Future<void> fetchUser() async {
+    // final user = FirebaseAuth.instance.currentUser;
+
+    // if (user != null) {
+    //   final DatabaseReference query =
+    //       // FirebaseDatabase.instance.ref().child('users').child(user.uid);
+    //       FirebaseDatabase.instance.ref().child('users');
+    //   final snapshot = await query.get();
+
+    //   setState(() {
+    //     userName = snapshot.child('name').value.toString();
+    //   });
+    // }
+    final DatabaseReference queryRecording =
+        FirebaseDatabase.instance.ref().child('users');
+    queryRecording.onValue.listen((DatabaseEvent event) {
+      setState(() {
+        userName = event.snapshot.child('name').value.toString();
+      });
+    });
+  }
+
+  void fetchRecordStatus() async {
     setState(() {
       fetching = true;
     });
-    fetchUser();
-    fetchRecordStatus();
-  }
-
-  Future<void> fetchUser() async {
-    final user = FirebaseAuth.instance.currentUser;
-
-    if (user != null) {
-      final DatabaseReference query =
-          FirebaseDatabase.instance.ref().child('users').child(user.uid);
-      final snapshot = await query.get();
-      setState(() {
-        userName = snapshot.child('name').value.toString();
-      });
-    }
-  }
-
-  Future<void> fetchRecordStatus() async {
     final DatabaseReference queryRecording =
         FirebaseDatabase.instance.ref().child('test');
     final snapshot = await queryRecording.get();
     if (recording != 'null') {
       if (snapshot.child('startCamera').value.toString() == '0') {
-        queryRecording.child('startCamera').set(1);
+        await queryRecording.child('startCamera').set(1);
       } else if (snapshot.child('startCamera').value.toString() == '1') {
-        queryRecording.child('startCamera').set(0);
+        await queryRecording.child('startCamera').set(0);
       }
     }
     final latestSnapshot = await queryRecording.get();
@@ -96,22 +113,22 @@ class _AccountHeaderState extends State<AccountHeader> {
           child: TextButton(
             child: Text(
               fetching
-                  ? '...'
+                  ? 'loading...'
                   : recording == '0'
                       ? 'Start record'
                       : "Stop record",
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              if (!fetching) {
-                setState(() {
-                  fetching = true;
-                });
+              if (fetching == false) {
+                fetchRecordStatus();
+                // setState(() {
+                //   fetching = true;
+                // });
               }
 
-              if (fetching) {
-                fetchRecordStatus();
-              }
+              // if (fetching) {
+              // }
             },
           ),
           // child: IconButton(
